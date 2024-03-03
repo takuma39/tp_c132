@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/memo', [MemoController::class, 'index'])->name('memo.index');
     Route::get('/memo/add', [MemoController::class, 'add'])->name('memo.add');
     Route::post('/memo/update', [MemoController::class, 'update'])->name('memo.update');
+    Route::post('/memo/delete', [MemoController::class, 'delete'])->name('memo.delete');
     Route::get('/memo/select', [MemoController::class, 'select'])->name('memo.select');
 });
 
