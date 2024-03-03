@@ -21,9 +21,12 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.index');
 // ユーザー登録画面
 Route::get('/user', [RegisterController::class, 'showRegistrationForm'])->name('user.register');
 Route::post('/user/register', 'App\Http\Controllers\Auth\RegisterController@register')->name('user.exec.register');
-// メモ一覧画面
+
+// middleware auth
 Route::group(['middleware' => ['auth']], function () {
+    // メモ一覧画面
     Route::get('/memo', [MemoController::class, 'index'])->name('memo.index');
+    Route::get('/memo/add', [MemoController::class, 'add'])->name('memo.add');
 });
 
 Auth::routes();
