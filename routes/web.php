@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemoController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +17,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ログイン画面
-Route::get('/', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login.index');
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.index');
 // ユーザー登録画面
-Route::get('/user', 'App\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('user.register');
+Route::get('/user', [RegisterController::class, 'showRegistrationForm'])->name('user.register');
 Route::post('/user/register', 'App\Http\Controllers\Auth\RegisterController@register')->name('user.exec.register');
-// メモ一覧画面
+
+// middleware auth
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/memo', function () {
-        return view("memo");
-    })->name('memo.index');
+    // メモ一覧画面
+    Route::get('/memo', [MemoController::class, 'index'])->name('memo.index');
+    Route::get('/memo/add', [MemoController::class, 'add'])->name('memo.add');
+    Route::post('/memo/update', [MemoController::class, 'update'])->name('memo.update');
+    Route::post('/memo/delete', [MemoController::class, 'delete'])->name('memo.delete');
+    Route::get('/memo/select', [MemoController::class, 'select'])->name('memo.select');
+    Route::get('logout', [LoginController::class, 'logout'])->name('memo.logout');
 });
 
 Auth::routes();
