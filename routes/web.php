@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,7 @@ Route::get('/user', 'App\Http\Controllers\Auth\RegisterController@showRegistrati
 Route::post('/user/register', 'App\Http\Controllers\Auth\RegisterController@register')->name('user.exec.register');
 // メモ一覧画面
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/memo', function () {
-        return view("memo");
-    })->name('memo.index');
+    Route::get('/memo', [MemoController::class, 'index'])->name('memo.index');
 });
 
 Auth::routes();
